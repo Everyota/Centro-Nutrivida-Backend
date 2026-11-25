@@ -7,6 +7,7 @@ import path from 'node:path';
 import categoriasRoutes from './src/routes/categoriasRoutes.js';
 import serviciosRoutes from './src/routes/serviciosRoutes.js';
 import authRoutes from './src/routes/authRoutes.js';
+import reservasRoutes from './src/routes/reservasRoutes.js';
 const app = express();
 // Permite leer el JSON que llega en las peticiones
 app.use(morgan('dev'));
@@ -18,6 +19,7 @@ app.use(express.static(path.resolve('public')));
 app.use("/api/v1/categorias", categoriasRoutes);
 app.use("/api/v1/servicios", serviciosRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/reservas", reservasRoutes);
 app.listen(3000, () => {
     console.log("API en http://localhost:3000");
 });

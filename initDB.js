@@ -5,6 +5,8 @@ console.log('Iniciando creación de tablas')
 db.exec(`
     DROP TABLE IF EXISTS servicios;
     DROP TABLE IF EXISTS categorias;
+    DROP TABLE IF EXISTS usuarios;
+    DROP TABLE IF EXISTS reservas;
     CREATE TABLE IF NOT EXISTS categorias (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL UNIQUE,
@@ -36,6 +38,26 @@ db.exec(`
         rol TEXT NOT NULL DEFAULT 'PACIENTE'
             CHECK (rol IN ('PACIENTE', 'ADMIN')),
         fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS reservas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        rut TEXT NOT NULL,
+        nombres TEXT NOT NULL,
+        apellidos TEXT NOT NULL,
+        correo TEXT NOT NULL,
+        celular TEXT NOT NULL,
+        prevision TEXT NOT NULL DEFAULT 'Fonasa'
+            CHECK (prevision IN ('Fonasa', 'Isapre', 'Particular')),
+        fecha_reserva DATETIME NOT NULL,
+        nombre_profesional TEXT NOT NULL,
+        fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        servicio_id INTEGER NOT NULL,
+        user_id INTEGER DEFAULT NULL,
+
+        FOREIGN KEY (servicio_id) REFERENCES servicios(id),
+        FOREIGN KEY (user_id) REFERENCES usuarios(id)
+            ON DELETE SET NULL
     );
 `);
 

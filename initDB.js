@@ -22,6 +22,21 @@ db.exec(`
         categoria_id INTEGER NOT NULL,
         FOREIGN KEY (categoria_id) REFERENCES categorias(id)
     );
+
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        rut TEXT NOT NULL UNIQUE,
+        nombres TEXT NOT NULL,
+        apellidos TEXT NOT NULL,
+        correo TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        celular TEXT NOT NULL,
+        prevision TEXT NOT NULL DEFAULT 'Fonasa'
+            CHECK (prevision IN ('Fonasa', 'Isapre', 'Particular')),
+        rol TEXT NOT NULL DEFAULT 'PACIENTE'
+            CHECK (rol IN ('PACIENTE', 'ADMIN')),
+        fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
 `);
 
 console.log('Tablas creadas correctamente')

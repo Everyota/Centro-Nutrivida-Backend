@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from "express";
 import cors from "cors";
 import morgan from 'morgan';
+import path from 'node:path';
+
 import categoriasRoutes from './src/routes/categoriasRoutes.js';
 import serviciosRoutes from './src/routes/serviciosRoutes.js';
 import authRoutes from './src/routes/authRoutes.js';
@@ -10,6 +12,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
+// Permite servir archivos estáticos (imágenes)
+app.use(express.static(path.resolve('public')));
 
 app.use("/api/v1/categorias", categoriasRoutes);
 app.use("/api/v1/servicios", serviciosRoutes);
